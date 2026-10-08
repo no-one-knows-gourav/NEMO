@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/*
+ * NEMO brand tokens — "a hydrographic survey of a person" (UI spec §3.3).
+ * Code references tokens, never raw hex. chartMagenta has exactly one meaning:
+ * "a person needs to look at this" (UI-020). Light + dark appearances.
+ */
+:root {
+  --survey: #f7f9f9;
+  --sheet: #ffffff;
+  --ink: #12222c;
+  --ink-secondary: #4a5b66;
+  --ink-tertiary: #7d8c95;
+  --shoal: #d3e4ea;
+  --fathom: #2d5f73;
+  --magenta: #b4196e;
+  --rule: #d9e1e4;
+
+  --verdict-clear: #1f7a5c;
+  --verdict-concerns: #a35f00;
+  --verdict-redflag: #c2342b;
+  --verdict-unsurveyed: #6b7a84;
+  --verdict-stop-fill: #12222c;
+  --verdict-stop-ring: #c2342b;
+
+  --sev1: #9e1f1a;
+  --sev2: #c2342b;
+  --sev3: #a35f00;
+  --sev4: #5e6e78;
+  --sev5: #8d9aa2;
+
+  --tier-ink: #12222c;
+
+  --shadow-sheet: 0 1px 2px rgba(18, 34, 44, 0.06), 0 2px 8px rgba(18, 34, 44, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --survey: #0e1a21;
+    --sheet: #142530;
+    --ink: #e6eef0;
+    --ink-secondary: #a9bac2;
+    --ink-tertiary: #6f8590;
+    --shoal: #1d3440;
+    --fathom: #7fb3c6;
+    --magenta: #e05aa5;
+    --rule: #233a46;
+
+    --verdict-clear: #4cc59a;
+    --verdict-concerns: #f0a93b;
+    --verdict-redflag: #f2766b;
+    --verdict-unsurveyed: #8fa1ab;
+    --verdict-stop-fill: #e6eef0;
+    --verdict-stop-ring: #f2766b;
+
+    --sev1: #f2766b;
+    --sev2: #f28b7f;
+    --sev3: #f0a93b;
+    --sev4: #a9bac2;
+    --sev5: #7d8c95;
+
+    --tier-ink: #e6eef0;
+    --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
+}
+
+:root[data-theme="dark"] {
+  --survey: #0e1a21;
+  --sheet: #142530;
+  --ink: #e6eef0;
+  --ink-secondary: #a9bac2;
+  --ink-tertiary: #6f8590;
+  --shoal: #1d3440;
+  --fathom: #7fb3c6;
+  --magenta: #e05aa5;
+  --rule: #233a46;
+  --verdict-clear: #4cc59a;
+  --verdict-concerns: #f0a93b;
+  --verdict-redflag: #f2766b;
+  --verdict-unsurveyed: #8fa1ab;
+  --verdict-stop-fill: #e6eef0;
+  --verdict-stop-ring: #f2766b;
+  --sev1: #f2766b;
+  --sev2: #f28b7f;
+  --sev3: #f0a93b;
+  --sev4: #a9bac2;
+  --sev5: #7d8c95;
+  --tier-ink: #e6eef0;
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Map tokens into the Tailwind theme so utilities like bg-survey, text-ink,
+ * text-magenta, border-rule, text-verdict-clear, etc. are available. */
+@theme inline {
+  --color-survey: var(--survey);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-tertiary: var(--ink-tertiary);
+  --color-shoal: var(--shoal);
+  --color-fathom: var(--fathom);
+  --color-magenta: var(--magenta);
+  --color-rule: var(--rule);
+
+  --color-verdict-clear: var(--verdict-clear);
+  --color-verdict-concerns: var(--verdict-concerns);
+  --color-verdict-redflag: var(--verdict-redflag);
+  --color-verdict-unsurveyed: var(--verdict-unsurveyed);
+  --color-verdict-stop-fill: var(--verdict-stop-fill);
+  --color-verdict-stop-ring: var(--verdict-stop-ring);
+
+  --color-sev1: var(--sev1);
+  --color-sev2: var(--sev2);
+  --color-sev3: var(--sev3);
+  --color-sev4: var(--sev4);
+  --color-sev5: var(--sev5);
+
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, serif;
+  --font-mono: var(--font-b612), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    system-ui, sans-serif;
+}
+
+html,
+body {
+  background: var(--survey);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers in scores, dates and tables use tabular figures (UI spec §3.4). */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one place the brand is allowed to be loud: plate registration.
+ * An out-of-register double image signals a declared/discovered mismatch. */
+.plate-slip {
+  position: relative;
+}
+.plate-slip::after {
+  content: attr(data-ghost);
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  color: var(--magenta);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Diagonal hatching = unsurveyed water (coverage gap). */
+.hatch-unsurveyed {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--verdict-unsurveyed) 0,
+    var(--verdict-unsurveyed) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 0.5;
+}
+
+/* Guilloche-style hairline used on identity records / report covers. */
+.guilloche {
+  background-image: repeating-linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--fathom) 22%, transparent) 0 0.5px,
+      transparent 0.5px 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--fathom) 14%, transparent) 0 0.5px,
+      transparent 0.5px 7px
+    );
+}
+
+@keyframes nemo-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.nemo-ping {
+  animation: nemo-ping 600ms ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nemo-ping {
+    animation: none;
+  }
+}
+
+::selection {
+  background: var(--shoal);
+}
