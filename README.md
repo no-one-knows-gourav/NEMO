@@ -40,7 +40,7 @@ Given a subject and their supplied documents, NEMO:
 
 ## The scoring engine is real
 
-`src/lib/scoring/engine.ts` implements PRD Section 8 exactly — Strength of
+`src/lib/scoring/engine.ts` implements Strength of
 Evidence, Risk Contribution, Error Factor, coverage, verdict bands and the
 pattern rule — as pure, replayable code. It is validated against the PRD's own
 worked example:
@@ -57,8 +57,7 @@ npm run seed   # materialise the demo case into .data/
 npm run dev    # http://localhost:3000
 ```
 
-Open the seeded check **Rahul Sharma** (an L2 fintech-founder case from PRD
-Appendix C). Walk the tabs: Overview → Identity (Gate G1) → Evidence map →
+Open the seeded check **Rahul Sharma** (an L2 fintech-founder case). Walk the tabs: Overview → Identity (Gate G1) → Evidence map →
 Declared vs discovered → Report (Gate G2) → Identity record. Then try **Ask NEMO**.
 
 ### Live vs replay mode
@@ -94,7 +93,3 @@ Raw unique identifiers (PAN, Aadhaar, passport, SSN) never enter the graph,
 logs, prompts or the UI — only masked values and vault tokens. The store
 enforces this on every write. `chartMagenta` has exactly one meaning in the UI:
 *a person needs to look at this.*
-
----
-
-*Prototype built from the NEMO v1.0 PRD and UI specification.*
